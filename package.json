@@ -1,0 +1,25 @@
+{
+  "name": "authentication",
+  "version": "1.0.0",
+  "description": "Make Authentication and Authorization system with Node.Js MongoDB and Express.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soroush-habibi/Authentication-Node.js.git"
+  },
+  "keywords": [
+    "MongoDB",
+    "Node.js",
+    "Express.js",
+    "MERN"
+  ],
+  "author": "Soroush Habibi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/soroush-habibi/Authentication-Node.js/issues"
+  },
+  "homepage": "https://github.com/soroush-habibi/Authentication-Node.js#readme"
+}
