@@ -12,10 +12,11 @@ process.env.ROOT = __dirname;
 
 const app = express();
 
-DB.connect(() => {
+DB.connect(async (client) => {
     app.listen(process.env.PORT, () => {
         console.log(`Server is Running on port ${process.env.PORT}`);
-    })
+    });
+    client.close();
 });
 
 app.use(express.static(path.join(__dirname, "/public")));
