@@ -72,4 +72,46 @@ export default class postController {
             });
         }
     }
+
+    static login(req, res) {
+        if (!(req.body.input && req.body.password)) {
+            res.status(400).json({
+                success: false,
+                body: null,
+                message: "Invalid Input"
+            });
+            return;
+        }
+        DB.connect(async (client) => {
+            try {
+                const result = await DB.loginUser(req.body.input, req.body.password);
+                if (result === 0) {
+                    res.status(200).json({
+                        success: true,
+                        body: null,
+                        message: "OK"
+                    });
+                } else if (result === 1) {
+                    res.status(203).json({
+                        success: false,
+                        body: null,
+                        message: "wrong username or email"
+                    });
+                } else if (result === 2) {
+                    res.status(203).json({
+                        success: false,
+                        body: null,
+                        message: "wrong password"
+                    });
+                }
+            } catch (e) {
+                res.status(500).json({
+                    success: false,
+                    body: null,
+                    message: e.message
+                });
+            }
+            client.close()
+        });
+    }
 }
