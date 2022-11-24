@@ -6,41 +6,41 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index Page</title>
-    <style>
-        body {
-            background-color: bisque;
-        }
-
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        button {
-            font-size: 50px;
-            color: aliceblue;
-            padding: 20px;
-            margin: 20px;
-            border-radius: 15px;
-            background-color: rgba(112, 152, 211, 0.815);
-        }
-
-        .auth {
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="CSS/index.css">
 </head>
 
 <body>
     <div class="container not-auth">
         <button type="button" id="loginButton">Login</button>
-        <button type="button" itemref="signUpButton">Sign up</button>
+        <button type="button" id="signUpButton">Sign up</button>
     </div>
     <div class="container auth">
         <h1>You are logged in</h1>
-        <button type="button" itemref="signOutButton">Sign Out</button>
+        <button type="button" id="signOutButton">Sign Out</button>
+    </div>
+
+    <div class="form-container d-none">
+        <form action="">
+            <label for="" id="username-input">Username
+                <input type="text" />
+            </label>
+
+            <label for="" id="email-input">Email
+                <input type="text" />
+            </label>
+
+            <label for="" id="password-input">Password
+                <input type="password" />
+            </label>
+
+            <label for="" id="password2-input">Repeat Password
+                <input type="password" />
+            </label>
+        </form>
+        <h4 id="change">Create Account/You have account?</h4>
     </div>
 </body>
+
+<script src="JS/index.js"></script>
 
 </html>
