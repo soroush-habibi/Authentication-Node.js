@@ -1,4 +1,5 @@
 import mongodb from 'mongodb';
+import bcrypt from 'bcrypt';
 
 export default class mongoDB {
     static async connect(func) {
@@ -17,7 +18,8 @@ export default class mongoDB {
     }
 
     static async insertUser(username, email, password) {
-        const result = await this.client.db("Auth").collection("users").insertOne({ username: username, email: email, password: password, lastLogin: new Date() });
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const result = await this.client.db("Auth").collection("users").insertOne({ username: username, email: email, password: hashedPassword, lastLogin: new Date() });
         return result;
     }
 
@@ -28,7 +30,7 @@ export default class mongoDB {
         if (emailValidation) {
             if (await this.existsUser(null, input)) {
                 result = await this.client.db("Auth").collection("users").findOne({ email: input });
-                if (result.password == password) {
+                if (await bcrypt.compare(password, result.password)) {
                     return 0;
                 } else {
                     return 2;
@@ -39,7 +41,7 @@ export default class mongoDB {
         } else {
             if (await this.existsUser(input, null)) {
                 result = await this.client.db("Auth").collection("users").findOne({ username: input });
-                if (result.password == password) {
+                if (await bcrypt.compare(password, result.password)) {
                     return 0;
                 } else {
                     return 2;

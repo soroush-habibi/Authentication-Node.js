@@ -35,7 +35,7 @@ export default class postController {
                 try {
                     const response = await DB.insertUser(req.body.username, req.body.email, req.body.password);
                     if (response.acknowledged) {
-                        res.status(200).json({
+                        res.status(201).json({
                             success: true,
                             body: response.insertedId,
                             message: "OK"
