@@ -31,6 +31,7 @@ export default class mongoDB {
             if (await this.existsUser(null, input)) {
                 result = await this.client.db("Auth").collection("users").findOne({ email: input });
                 if (await bcrypt.compare(password, result.password)) {
+                    await this.client.db("Auth").collection("users").updateOne({ email: input }, { lastLogin: new Date() });
                     return 0;
                 } else {
                     return 2;
@@ -42,6 +43,7 @@ export default class mongoDB {
             if (await this.existsUser(input, null)) {
                 result = await this.client.db("Auth").collection("users").findOne({ username: input });
                 if (await bcrypt.compare(password, result.password)) {
+                    await this.client.db("Auth").collection("users").updateOne({ username: input }, { $set: { lastLogin: new Date() } });
                     return 0;
                 } else {
                     return 2;
@@ -50,5 +52,15 @@ export default class mongoDB {
                 return 1;
             }
         }
+    }
+
+    static async invokeToken(token, func) {
+        const result = await this.client.db("Auth").collection("invokedToken").insertOne({ token: token });
+        func(result);
+    }
+
+    static async isTokenInvoked(token) {
+        const result = await this.client.db("Auth").collection("invokedToken").findOne({ token: token });
+        return result ? true : false;
     }
 }

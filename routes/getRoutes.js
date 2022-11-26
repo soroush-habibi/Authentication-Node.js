@@ -6,4 +6,6 @@ const router = express.Router();
 
 router.get("/", getControllers.homeController);
 
+router.get("/verify", getControllers.authorization);
+
 export default router;

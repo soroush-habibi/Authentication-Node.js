@@ -1,4 +1,7 @@
-import mongodb from 'mongodb';
+import JWT from 'jsonwebtoken';
+import fs from 'fs';
+import path from 'path';
+
 import DB from '../models/mongo.js';
 
 export default class postController {
@@ -86,6 +89,8 @@ export default class postController {
             try {
                 const result = await DB.loginUser(req.body.input, req.body.password);
                 if (result === 0) {
+                    const token = JWT.sign({ userEmail: req.body.input }, fs.readFileSync(path.join(process.env.ROOT, "/private.key")), { expiresIn: "7d", algorithm: "RS256" });
+                    res.cookie("JWT", token, { httpOnly: true });
                     res.status(200).json({
                         success: true,
                         body: null,

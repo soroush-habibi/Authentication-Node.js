@@ -17,10 +17,6 @@ button {
     background-color: rgba(112, 152, 211, 0.815);
 }
 
-.auth {
-    display: none;
-}
-
 .form-container {
     display: flex;
     flex-direction: column;
