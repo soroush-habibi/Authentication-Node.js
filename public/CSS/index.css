@@ -40,3 +40,15 @@ form {
 .d-none {
     display: none;
 }
+
+#submit {
+    font-size: 25px;
+    padding: 7px;
+    margin: 5px;
+    margin-left: 45px;
+}
+
+#loading-text {
+    width: 100%;
+    text-align: center;
+}

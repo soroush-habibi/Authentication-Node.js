@@ -54,13 +54,13 @@ export default class mongoDB {
         }
     }
 
-    static async invokeToken(token, func) {
-        const result = await this.client.db("Auth").collection("invokedToken").insertOne({ token: token });
+    static async invalidateToken(token, func) {
+        const result = await this.client.db("Auth").collection("invalidateToken").insertOne({ token: token });
         func(result);
     }
 
-    static async isTokenInvoked(token) {
-        const result = await this.client.db("Auth").collection("invokedToken").findOne({ token: token });
+    static async isTokenInvalid(token) {
+        const result = await this.client.db("Auth").collection("invalidateToken").findOne({ token: token });
         return result ? true : false;
     }
 }

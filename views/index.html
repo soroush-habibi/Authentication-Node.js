@@ -10,37 +10,40 @@
 </head>
 
 <body>
-    <div class="container not-auth">
+    <h1 id="loading-text">Loading...</h1>
+    <div class="container not-auth d-none">
         <button type="button" id="loginButton">Login</button>
         <button type="button" id="signUpButton">Sign up</button>
     </div>
     <div class="container auth d-none">
-        <h1>You are logged in</h1>
+        <h1 id="logged-in-text">You are logged in</h1>
         <button type="button" id="signOutButton">Sign Out</button>
     </div>
 
     <div class="form-container d-none">
         <form action="">
-            <label for="" id="username-input">Username
-                <input type="text" />
+            <label for="">Username
+                <input type="text" id="username-input" />
             </label>
 
-            <label for="" id="email-input">Email
-                <input type="text" />
+            <label for="">Email
+                <input type="text" id="email-input" />
             </label>
 
-            <label for="" id="password-input">Password
-                <input type="password" />
+            <label for="">Password
+                <input type="password" id="password-input" />
             </label>
 
-            <label for="" id="password2-input">Repeat Password
-                <input type="password" />
+            <label for="">Repeat Password
+                <input type="password" id="password2-input" />
             </label>
+            <button type="submit" id="submit">submit</button>
         </form>
         <h4 id="change">Create Account/You have account?</h4>
     </div>
 </body>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.0/axios.js"></script>
 <script src="JS/index.js"></script>
 
 </html>
