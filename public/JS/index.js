@@ -114,9 +114,42 @@ form.addEventListener('submit', async (e) => {
             }
         } catch (e) {
             submitButton.disabled = false;
-            console.log(e.message);
+            alert(e.message);
         }
     } else if (pageStatus === 2) {
+        if (usernameInput.value.length <= 5) {
+            alert("username should be bigger than 5 character");
+        } else if (!(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(emailInput.value))) {
+            alert("email is not valid");
+        } else if (passwordInput.value.length < 8) {
+            alert("password should be at least 8 character");
+        } else if (passwordInput.value !== passwordInput2.value) {
+            alert("repeat password is not equal to password");
+        } else {
+            try {
+                submitButton.disabled = true;
+                const response = await axios.post(`/sign-up`, {
+                    username: usernameInput.value,
+                    email: emailInput.value,
+                    password: passwordInput.value
+                }, { timeout: 10000 });
+                const data = await response.data;
+                submitButton.disabled = false;
 
+                if (data.success) {
+                    formContainer.querySelectorAll("label")[1].classList.add("d-none");
+                    formContainer.querySelectorAll("label")[3].classList.add("d-none");
+
+                    change.innerHTML = "You dont have acount? click here";
+
+                    pageStatus = 1;
+                } else {
+                    alert(data.message);
+                }
+            } catch (e) {
+                submitButton.disabled = false;
+                alert(e.message);
+            }
+        }
     }
 });
