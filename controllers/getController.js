@@ -1,6 +1,7 @@
 import path from 'path';
 import JWT from 'jsonwebtoken';
 import fs from 'fs';
+import url from 'url';
 
 import DB from "../models/mongo.js";
 
@@ -66,10 +67,11 @@ export default class getControllers {
 
         DB.connect(async (client) => {
             if (await DB.isTokenInvalid(token)) {
+                await res.clearCookie("JWT");
                 res.status(403).json({
                     success: false,
                     body: null,
-                    message: "token invoked"
+                    message: "token invalidated"
                 });
             } else {
                 try {
@@ -84,12 +86,21 @@ export default class getControllers {
                             const newToken = JWT.sign({ userEmail: payload.userEmail }, fs.readFileSync(path.join(process.env.ROOT, "/private.key")), { expiresIn: "7d", algorithm: "RS256" })
                             await res.cookie("JWT", newToken, { httpOnly: true, expires: new Date(Date.now() + 604800000) });
                             await DB.invalidateToken(token, (result) => {
-                                client.close();
-                            });
-                            res.status(200).json({
-                                success: true,
-                                body: payload.userEmail,
-                                message: "OK"
+                                if (result.acknowledged) {
+                                    res.status(200).json({
+                                        success: true,
+                                        body: payload.userEmail,
+                                        message: "OK"
+                                    });
+                                    client.close();
+                                } else {
+                                    res.status(500).json({
+                                        success: false,
+                                        body: result,
+                                        message: "internal error"
+                                    });
+                                    client.close();
+                                }
                             });
                         }
                     });

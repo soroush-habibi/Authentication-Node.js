@@ -31,7 +31,7 @@ export default class mongoDB {
             if (await this.existsUser(null, input)) {
                 result = await this.client.db("Auth").collection("users").findOne({ email: input });
                 if (await bcrypt.compare(password, result.password)) {
-                    await this.client.db("Auth").collection("users").updateOne({ email: input }, { lastLogin: new Date() });
+                    await this.client.db("Auth").collection("users").updateOne({ email: input }, { $set: { lastLogin: new Date() } });
                     return 0;
                 } else {
                     return 2;

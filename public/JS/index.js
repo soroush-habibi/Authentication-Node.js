@@ -1,5 +1,6 @@
 const loginButton = document.querySelector("#loginButton");
 const signUpButton = document.querySelector("#signUpButton");
+const signOutButton = document.querySelector("#signOutButton");
 const formContainer = document.querySelector(".form-container");
 const container = document.querySelector(".container");
 const change = document.querySelector("#change");
@@ -28,6 +29,20 @@ document.addEventListener("DOMContentLoaded", async (e) => {
     } catch (e) {
         loadingText.classList.add("d-none");
         notAuthBox.classList.remove("d-none");
+    }
+});
+
+signOutButton.addEventListener("click", async (e) => {
+    try {
+        const { data } = await axios.post("/sign-out");
+        if (data.success) {
+            authBox.classList.add("d-none");
+            notAuthBox.classList.remove("d-none");
+        } else {
+            console.log(data.message);
+        }
+    } catch (e) {
+        console.log(e.message);
     }
 });
 
@@ -85,7 +100,7 @@ form.addEventListener('submit', async (e) => {
         }
         try {
             submitButton.disabled = true;
-            const response = await axios.get(`/login?input=${usernameInput.value}&password=${passwordInput.value}`, { timeout: 10000 });
+            const response = await axios.get(`/login?input=${encodeURIComponent(usernameInput.value)}&password=${encodeURIComponent(passwordInput.value)}`, { timeout: 10000 });
             const data = await response.data;
             submitButton.disabled = false;
 

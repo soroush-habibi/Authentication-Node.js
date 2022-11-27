@@ -71,4 +71,52 @@ export default class postController {
             });
         }
     }
+
+    static signOut(req, res) {
+        if (!req.cookies.JWT) {
+            res.status(400).json({
+                success: false,
+                body: null,
+                message: "not authorized"
+            });
+            return;
+        }
+        DB.connect(async (client) => {
+            try {
+                if (await DB.isTokenInvalid(req.cookies.JWT)) {
+                    await res.clearCookie("JWT");
+                    res.status(400).json({
+                        success: false,
+                        body: null,
+                        message: "invalidate already"
+                    });
+                    return;
+                }
+                DB.invalidateToken(req.cookies.JWT, async (result) => {
+                    if (result.acknowledged) {
+                        await res.clearCookie("JWT");
+                        res.status(200).json({
+                            success: true,
+                            body: null,
+                            message: "OK"
+                        });
+                    } else {
+                        res.status(500).json({
+                            success: false,
+                            body: result,
+                            message: "internal error"
+                        });
+                    }
+                    client.close();
+                });
+            } catch (e) {
+                client.close();
+                res.status(500).json({
+                    success: false,
+                    body: e.message,
+                    message: "internal error"
+                });
+            }
+        });
+    }
 }
