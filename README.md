@@ -19,7 +19,10 @@ Type below command in terminal:
 <pre>
 node index
 </pre>
-Now Web Server is running on 3000 port by default.you can change port in ".env" file.now open below link in your browser:
+Now Web Server is running on 3000 port by default.you can change port in ".env" file.<br/>
+Then install mongodb on your system and start mongod service.then use mongosh command to see mongoDB is setup correctly or not<br/>
+Your mongoDB run on port 27017 by default and you can change it in mongod config file.<br/><b><a href="https://www.mongodb.com/docs/manual/installation/">click here</a></b> to see full guide for install mongoDB
+now open below link in your browser:
 <pre>localhost:3000</pre>
 You can also use loopback address<br/>
 Now you can see two option: sign up & login<br/>
