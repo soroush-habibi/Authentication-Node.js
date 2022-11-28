@@ -48,7 +48,7 @@ export default class postController {
                     }
                 } catch (e) {
                     if (e.message.includes("E11000 duplicate key error collection")) {
-                        res.status(400).json({
+                        res.status(409).json({
                             success: false,
                             body: null,
                             message: "this username or email used before"
